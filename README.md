@@ -1,31 +1,31 @@
 # Prefab Scatter
 
-Een Unity editor-tool om prefabs (planten, stenen, gras, rommel...) te verspreiden binnen een zelfgetekend, organisch gebied. Alles komt netjes op de grond te staan. Geïnspireerd op [Greebler](https://github.com/alexismorin/Greebler).
+A Unity editor tool for scattering prefabs (plants, rocks, grass, debris...) inside a hand-drawn, organic area. Everything is placed neatly on the ground. Inspired by [Greebler](https://github.com/alexismorin/Greebler).
 
-- Unity **2019.4** of nieuwer
-- Werkt met elke render pipeline (de tool spawnt alleen prefabs)
-- Alleen editor-tijd: in een build zit niets extra's behalve het (lege) data-component
+- Unity **2019.4** or newer
+- Works with any render pipeline (the tool only spawns prefabs)
+- Editor-time only: nothing extra ends up in a build except the (data-only) component
 
 ## Features
 
-- **Prefab-lijst** met per prefab: weight (kans), scale min/max, align to normal en Y-offset
-- **Drag & drop**: sleep een hele selectie prefabs in één keer in de inspector
-- **Organisch gebied**: punten met een vloeiende Catmull-Rom-rand, concave vormen werken ook
-- **Op de grond plaatsen** met raycasts naar beneden, alleen op de gekozen **Ground Layers** (meerdere layers mogelijk)
-- **Density** per m², **Min Distance** tussen objecten, **Edge Falloff** voor een zachte rand en optionele **Perlin noise** voor plukken en open plekken
-- **Max slope**: steile plekken worden overgeslagen
-- **Willekeurige Y-rotatie** (0-360°)
-- **Netjes in de hiërarchie**: alles komt onder één child-object (`Scattered`)
-- **Deterministisch**: zelfde seed + zelfde instellingen = zelfde resultaat. **New seed** voor een nieuwe variatie
-- **Volledige Undo-ondersteuning**
-- **Visuele feedback** in de Scene view:
-  - gevuld gebied met een omlijning die het terrein volgt
-  - live preview van de plaatsingen (één kleur per prefab), al vóór je op Scatter drukt
-  - paneel linksboven met Edit / Scatter / Clear / New seed en de aantallen
+- **Prefab list** with per prefab: weight (chance), scale min/max, align to normal and Y offset
+- **Drag & drop**: drop a whole selection of prefabs into the inspector at once
+- **Organic area**: control points with a smooth Catmull-Rom outline; concave shapes work too
+- **Ground placement** with downward raycasts, only on the selected **Ground Layers** (multiple layers supported)
+- **Density** per m², **Min Distance** between objects, **Edge Falloff** for a soft border and optional **Perlin noise** for clumps and clearings
+- **Max slope**: steep spots are skipped
+- **Random Y rotation** (0-360°)
+- **Clean hierarchy**: everything is parented under a single child object (`Scattered`)
+- **Deterministic**: same seed + same settings = same result. **New seed** for a new variation
+- **Full Undo support**
+- **Visual feedback** in the Scene view:
+  - filled area with an outline that follows the terrain
+  - live preview of the placements (one colour per prefab), before you press Scatter
+  - panel in the top-left with Edit / Scatter / Clear / New seed and the counts
 
-## Installatie
+## Installation
 
-### Via git URL (aanbevolen)
+### Via git URL (recommended)
 
 *Window > Package Manager* → **+** → **Add package from git URL...**
 
@@ -33,13 +33,13 @@ Een Unity editor-tool om prefabs (planten, stenen, gras, rommel...) te verspreid
 https://github.com/PauseFish/prefab-scatterer.git
 ```
 
-Een vaste versie gebruiken? Zet de tag erachter:
+Want a fixed version? Add the tag:
 
 ```
 https://github.com/PauseFish/prefab-scatterer.git#v1.0.0
 ```
 
-Of voeg het direct toe aan `Packages/manifest.json`:
+Or add it directly to `Packages/manifest.json`:
 
 ```json
 "dependencies": {
@@ -47,71 +47,71 @@ Of voeg het direct toe aan `Packages/manifest.json`:
 }
 ```
 
-> Is de repo private? Dan moet git op je computer kunnen inloggen bij GitHub (bijv. via GitHub Desktop of de Git Credential Manager).
+> Is the repository private? Then git on your machine needs to be able to authenticate with GitHub (e.g. via GitHub Desktop or the Git Credential Manager).
 
-### Updaten
+### Updating
 
-Unity onthoudt de commit in `Packages/packages-lock.json`. Een nieuwe versie haal je op door de tag in de URL/manifest aan te passen (bijv. `#v1.1.0`). Zonder tag kan je de regel voor deze package uit `packages-lock.json` weghalen.
+Unity stores the resolved commit in `Packages/packages-lock.json`. To get a new version, change the tag in the URL/manifest (e.g. `#v1.1.0`). Without a tag, remove this package's entry from `packages-lock.json` to fetch the latest commit.
 
-### Lokaal aanpassen
+### Editing locally
 
-Wil je de tool in een project zelf aanpassen, clone de repo dan in `<Project>/Packages/`. Unity gebruikt hem dan als embedded package die je gewoon kunt bewerken.
+To modify the tool inside a project, clone the repository into `<Project>/Packages/`. Unity then treats it as an embedded package that you can edit directly.
 
-## Gebruik
+## Usage
 
-1. **GameObject > The Source Game > Prefab Scatter Area**. Er verschijnt een onregelmatige cirkel op de grond bij het midden van je Scene view.
-2. Voeg prefabs toe via de lijst of sleep ze in het vak **"Sleep prefabs hierheen"**.
-3. Kies de **Ground Layers**. De grond moet een **collider** hebben (MeshCollider, TerrainCollider...).
-4. Klik **Area bewerken** en vorm het gebied:
+1. **GameObject > The Source Game > Prefab Scatter Area**. An irregular circle appears on the ground at the centre of your Scene view.
+2. Add prefabs via the list, or drag them into the drop box below it.
+3. Choose the **Ground Layers**. The ground needs a **collider** (MeshCollider, TerrainCollider...).
+4. Click the area edit button and shape the area:
 
-   | Actie | Invoer |
+   | Action | Input |
    |---|---|
-   | Punt verplaatsen (over de grond) | Slepen |
-   | Punt toevoegen | Shift + klik |
-   | Punt verwijderen | Ctrl/Cmd + klik op een punt |
-   | Stoppen met bewerken | Esc |
+   | Move point (across the ground) | Drag |
+   | Add point | Shift + click |
+   | Remove point | Ctrl/Cmd + click on a point |
+   | Stop editing | Esc |
 
-5. Stel **Density**, **Min Distance**, **Edge Falloff** en eventueel **Noise** in. De preview laat meteen zien wat er gebeurt.
-6. Klik **Scatter**. Opnieuw klikken bouwt alles opnieuw op. **Clear** haalt alles weg.
+5. Set **Density**, **Min Distance**, **Edge Falloff** and optionally **Noise**. The preview shows the result immediately.
+6. Click **Scatter**. Clicking again regenerates everything. **Clear** removes it all.
 
-### Instellingen
+### Settings
 
-| Instelling | Uitleg |
+| Setting | Description |
 |---|---|
-| Weight | Relatieve kans dat een prefab gekozen wordt |
-| Scale (min / max) | Willekeurige uniforme schaal, keer de schaal van de prefab |
-| Align To Normal | 0 = recht omhoog, 1 = volledig mee met de helling |
-| Y Offset | Verschuiving langs de omhoog-as. Negatief = iets in de grond zakken |
-| Ground Layers | Alleen colliders op deze layers tellen als grond |
-| Max Slope | Steilere plekken (in graden) worden overgeslagen |
-| Raycast Height | Hoe ver boven het gebied de raycast start |
-| Smooth Outline / Subdivisions | Vloeiende rand door de punten |
-| Density | Maximaal aantal objecten per m² |
-| Min Distance | Minimale afstand tussen twee objecten (0 = uit) |
-| Edge Falloff | Afstand vanaf de rand waarover de dichtheid afloopt naar 0 |
-| Use Noise / Scale / Threshold | Perlin noise voor plukken. Hogere threshold = meer open plekken |
-| Random Y Rotation | Willekeurige rotatie rond Y |
-| Seed | Bepaalt de willekeur |
-| Max Instances | Veiligheidslimiet per gebied |
-| Container Name | Naam van het child-object met alle gespawnde objecten |
+| Weight | Relative chance that a prefab is picked |
+| Scale (min / max) | Random uniform scale, multiplied by the prefab's own scale |
+| Align To Normal | 0 = straight up, 1 = fully follows the slope |
+| Y Offset | Offset along the up axis. Negative = sink slightly into the ground |
+| Ground Layers | Only colliders on these layers count as ground |
+| Max Slope | Steeper spots (in degrees) are skipped |
+| Raycast Height | How far above the area the raycast starts |
+| Smooth Outline / Subdivisions | Smooth outline through the control points |
+| Density | Maximum number of objects per m² |
+| Min Distance | Minimum distance between two objects (0 = off) |
+| Edge Falloff | Distance from the border over which density fades to 0 |
+| Use Noise / Scale / Threshold | Perlin noise for clumps. Higher threshold = more clearings |
+| Random Y Rotation | Random rotation around Y |
+| Seed | Controls the randomness |
+| Max Instances | Safety limit per area |
+| Container Name | Name of the child object that holds all spawned objects |
 
 ### Tips
 
-- De **pivot** van je prefabs hoort onderaan te zitten. Die komt op het raakpunt met de grond.
-- Gespawnde objecten worden genegeerd bij de raycasts, ook als ze op een ground layer staan.
-- Gebruik meerdere areas voor lagen (bijv. één voor gras, één voor struiken met een grotere Min Distance).
-- **Punten op grond leggen** zet alle controlepunten op het terrein, handig nadat je het object hebt verplaatst.
+- The **pivot** of your prefabs should be at the bottom; it is placed on the ground hit point.
+- Spawned objects are ignored by the raycasts, even if they are on a ground layer.
+- Use multiple areas for layering (e.g. one for grass, one for bushes with a larger Min Distance).
+- The snap-to-ground button puts all control points on the terrain, handy after moving the object.
 
-## Structuur
+## Structure
 
 ```
 package.json
 Runtime/
-  PrefabScatterArea.cs      Component met alle instellingen (alleen data + gizmo)
-  ScatterMath.cs            Polygon-wiskunde op het XZ-vlak (smoothing, inside-test, triangulatie)
+  PrefabScatterArea.cs        Component holding all settings (data + gizmo only)
+  ScatterMath.cs              Polygon maths on the XZ plane (smoothing, inside test, triangulation)
 Editor/
-  PrefabScatterGenerator.cs Berekent plaatsingen (raycasts) en spawnt/cleart met Undo
-  PrefabScatterAreaEditor.cs Inspector, scene-handles, preview en scene-overlay
+  PrefabScatterGenerator.cs   Calculates placements (raycasts) and spawns/clears with Undo
+  PrefabScatterAreaEditor.cs  Inspector, scene handles, preview and scene overlay
 ```
 
 Namespace: `TheSourceGame.PrefabScatter`.
