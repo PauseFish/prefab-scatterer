@@ -1,3 +1,4 @@
+// Claude.ai changed: v1.0.1 - translated all UI text, tooltips and log messages to English.
 // Claude.ai changed: New component that holds all settings of one scatter area. It only stores data and draws a gizmo; the actual spawning lives in the Editor assembly (PrefabScatterGenerator).
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,21 @@ namespace TheSourceGame.PrefabScatter
     [Serializable]
     public class ScatterPrefabEntry
     {
-        [Tooltip("De prefab die gespawnd wordt. De pivot hoort onderaan te zitten.")]
+        [Tooltip("The prefab to spawn. Its pivot should be at the bottom.")]
         public GameObject prefab;
 
-        [Tooltip("Relatieve kans dat deze prefab gekozen wordt. 2 = twee keer zo vaak als een prefab met 1.")]
+        [Tooltip("Relative chance that this prefab is picked. 2 = twice as often as a prefab with 1.")]
         [Min(0f)]
         public float weight = 1f;
 
-        [Tooltip("Willekeurige uniforme schaal tussen min (x) en max (y), vermenigvuldigd met de schaal van de prefab.")]
+        [Tooltip("Random uniform scale between min (x) and max (y), multiplied by the prefab's own scale.")]
         public Vector2 scaleRange = new Vector2(0.9f, 1.1f);
 
-        [Tooltip("0 = altijd recht omhoog, 1 = volledig mee met de helling van de grond.")]
+        [Tooltip("0 = always straight up, 1 = fully follows the slope of the ground.")]
         [Range(0f, 1f)]
         public float alignToNormal = 0f;
 
-        [Tooltip("Verschuiving langs de omhoog-as. Negatief = iets in de grond zakken (handig tegen zwevende randen op hellingen).")]
+        [Tooltip("Offset along the up axis. Negative = sink slightly into the ground (prevents floating edges on slopes).")]
         public float yOffset = 0f;
     }
 
@@ -34,68 +35,68 @@ namespace TheSourceGame.PrefabScatter
         public List<ScatterPrefabEntry> prefabs = new List<ScatterPrefabEntry>();
 
         // ---------- Ground ----------
-        [Tooltip("Alleen colliders op deze layers tellen als grond.")]
+        [Tooltip("Only colliders on these layers count as ground.")]
         public LayerMask groundLayers = 1;
 
-        [Tooltip("Maximale helling in graden. Steilere plekken worden overgeslagen.")]
+        [Tooltip("Maximum slope in degrees. Steeper spots are skipped.")]
         [Range(0f, 90f)]
         public float maxSlope = 45f;
 
-        [Tooltip("Hoe ver boven het hoogste punt van het gebied de raycast start.")]
+        [Tooltip("How far above the highest point of the area the raycast starts.")]
         [Min(0.1f)]
         public float raycastHeight = 50f;
 
         // ---------- Area ----------
-        [Tooltip("Controlepunten van het gebied, lokaal ten opzichte van dit object.")]
+        [Tooltip("Control points of the area, local to this object.")]
         public List<Vector3> points = new List<Vector3>();
 
-        [Tooltip("Maakt een vloeiende (organische) rand door de controlepunten.")]
+        [Tooltip("Creates a smooth (organic) outline through the control points.")]
         public bool smoothOutline = true;
 
-        [Tooltip("Aantal tussenpunten per segment van de vloeiende rand.")]
+        [Tooltip("Number of sub-points per segment of the smooth outline.")]
         [Range(2, 16)]
         public int smoothSubdivisions = 8;
 
         // ---------- Distribution ----------
-        [Tooltip("Maximaal aantal objecten per vierkante meter.")]
+        [Tooltip("Maximum number of objects per square metre.")]
         [Min(0f)]
         public float density = 0.5f;
 
-        [Tooltip("Minimale afstand tussen twee gespawnde objecten (meters). 0 = uit.")]
+        [Tooltip("Minimum distance between two spawned objects (metres). 0 = off.")]
         [Min(0f)]
         public float minDistance = 0.5f;
 
-        [Tooltip("Binnen deze afstand tot de rand loopt de dichtheid af naar 0. Geeft een natuurlijke rand. 0 = uit.")]
+        [Tooltip("Within this distance from the border the density fades to 0, for a natural edge. 0 = off.")]
         [Min(0f)]
         public float edgeFalloff = 1f;
 
-        [Tooltip("Gebruikt Perlin noise om plukken/open plekken te maken.")]
+        [Tooltip("Uses Perlin noise to create clumps and clearings.")]
         public bool useNoise = false;
 
-        [Tooltip("Grootte van de noise. Kleiner = grotere plukken.")]
+        [Tooltip("Noise frequency. Smaller = larger clumps.")]
         [Min(0.001f)]
         public float noiseScale = 0.15f;
 
-        [Tooltip("Hoger = meer open plekken.")]
+        [Tooltip("Higher = more clearings.")]
         [Range(0f, 1f)]
         public float noiseThreshold = 0.45f;
 
         // ---------- Transform ----------
-        [Tooltip("Willekeurige rotatie rond de Y-as (0-360).")]
+        [Tooltip("Random rotation around the Y axis (0-360).")]
         public bool randomYRotation = true;
 
         // ---------- Output ----------
-        [Tooltip("Seed voor de willekeur. Zelfde seed + zelfde instellingen = zelfde resultaat.")]
+        [Tooltip("Random seed. Same seed + same settings = same result.")]
         public int seed = 12345;
 
-        [Tooltip("Veiligheidslimiet voor het aantal objecten in dit gebied.")]
+        [Tooltip("Safety limit for the number of objects in this area.")]
         [Min(1)]
         public int maxInstances = 5000;
 
-        [Tooltip("Naam van het child-object waar alle gespawnde objecten onder komen.")]
+        [Tooltip("Name of the child object that holds all spawned objects.")]
         public string containerName = "Scattered";
 
-        [Tooltip("Het child-object met alle gespawnde objecten. Wordt automatisch aangemaakt.")]
+        [Tooltip("The child object holding all spawned objects. Created automatically.")]
         public Transform container;
 
         // ---------- Visuals (editor only) ----------

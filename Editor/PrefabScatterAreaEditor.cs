@@ -1,3 +1,4 @@
+// Claude.ai changed: v1.0.1 - translated all UI text, tooltips and log messages to English.
 // Claude.ai changed: New custom inspector + scene tool for PrefabScatterArea: prefab list with drag & drop, area editing with handles, filled area + outline projected on the ground, and a live placement preview.
 using System.Collections.Generic;
 using UnityEditor;
@@ -126,7 +127,7 @@ namespace TheSourceGame.PrefabScatter
             DrawPrefabDropArea();
             if (_prefabsProp.arraySize == 0)
             {
-                EditorGUILayout.HelpBox("Voeg minstens één prefab toe (of sleep ze in het vak hierboven).", MessageType.Info);
+                EditorGUILayout.HelpBox("Add at least one prefab (or drag them into the box above).", MessageType.Info);
             }
 
             // Ground
@@ -137,7 +138,7 @@ namespace TheSourceGame.PrefabScatter
             EditorGUILayout.PropertyField(_raycastHeightProp);
             if (_groundLayersProp.intValue == 0)
             {
-                EditorGUILayout.HelpBox("Er is geen ground layer gekozen: er wordt niets geplaatst.", MessageType.Warning);
+                EditorGUILayout.HelpBox("No ground layer selected: nothing will be placed.", MessageType.Warning);
             }
 
             // Area
@@ -149,30 +150,30 @@ namespace TheSourceGame.PrefabScatter
             {
                 EditorGUILayout.PropertyField(_smoothSubdivisionsProp);
             }
-            EditorGUILayout.LabelField("Oppervlakte", _areaSize.ToString("0.0") + " m²   (" + _pointsProp.arraySize + " punten)");
+            EditorGUILayout.LabelField("Surface", _areaSize.ToString("0.0") + " m²   (" + _pointsProp.arraySize + " points)");
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Reset naar cirkel"))
+            if (GUILayout.Button("Reset To Circle"))
             {
                 Undo.RecordObject(area, "Reset Scatter Area");
                 area.ResetPointsToCircle(5f, 8);
                 serializedObject.Update();
                 MarkDirty();
             }
-            if (GUILayout.Button("Punten op grond leggen"))
+            if (GUILayout.Button("Snap Points To Ground"))
             {
                 SnapPointsToGround(area);
                 serializedObject.Update();
             }
             EditorGUILayout.EndHorizontal();
 
-            _showPoints = EditorGUILayout.Foldout(_showPoints, "Punten (lokaal)", true);
+            _showPoints = EditorGUILayout.Foldout(_showPoints, "Points (local)", true);
             if (_showPoints)
             {
                 EditorGUI.indentLevel++;
                 for (int i = 0; i < _pointsProp.arraySize; i++)
                 {
-                    EditorGUILayout.PropertyField(_pointsProp.GetArrayElementAtIndex(i), new GUIContent("Punt " + i));
+                    EditorGUILayout.PropertyField(_pointsProp.GetArrayElementAtIndex(i), new GUIContent("Point " + i));
                 }
                 EditorGUI.indentLevel--;
             }
@@ -213,7 +214,7 @@ namespace TheSourceGame.PrefabScatter
             // Visuals
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Visuals", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(_showPreviewProp, new GUIContent("Show Preview", "Toont in de scene waar objecten komen te staan, voordat je op Scatter drukt."));
+            EditorGUILayout.PropertyField(_showPreviewProp, new GUIContent("Show Preview", "Shows in the Scene view where objects will be placed, before you press Scatter."));
             EditorGUILayout.PropertyField(_areaColorProp);
 
             if (EditorGUI.EndChangeCheck())
@@ -224,8 +225,8 @@ namespace TheSourceGame.PrefabScatter
 
             // Actions
             EditorGUILayout.Space();
-            string previewInfo = area.showPreview ? "Preview: " + _previewPlacements.Count + " objecten" : "Preview uit";
-            EditorGUILayout.HelpBox(previewInfo + "   |   Gespawnd: " + PrefabScatterGenerator.CountSpawned(area), MessageType.None);
+            string previewInfo = area.showPreview ? "Preview: " + _previewPlacements.Count + " objects" : "Preview off";
+            EditorGUILayout.HelpBox(previewInfo + "   |   Spawned: " + PrefabScatterGenerator.CountSpawned(area), MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Scatter", GUILayout.Height(30f)))
@@ -293,7 +294,7 @@ namespace TheSourceGame.PrefabScatter
 
         private static void DrawScaleRange(Rect rect, SerializedProperty scaleRange)
         {
-            GUIContent label = new GUIContent("Scale (min / max)", "Willekeurige uniforme schaal tussen min en max.");
+            GUIContent label = new GUIContent("Scale (min / max)", "Random uniform scale between min and max.");
             Rect fieldRect = EditorGUI.PrefixLabel(rect, label);
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
@@ -317,7 +318,7 @@ namespace TheSourceGame.PrefabScatter
         private void DrawPrefabDropArea()
         {
             Rect dropRect = GUILayoutUtility.GetRect(0f, 32f, GUILayout.ExpandWidth(true));
-            GUI.Box(dropRect, "Sleep prefabs hierheen", EditorStyles.helpBox);
+            GUI.Box(dropRect, "Drag prefabs here", EditorStyles.helpBox);
 
             Event e = Event.current;
             if (!dropRect.Contains(e.mousePosition))
@@ -356,7 +357,7 @@ namespace TheSourceGame.PrefabScatter
             {
                 GUI.backgroundColor = new Color(1f, 0.8f, 0.3f);
             }
-            bool newEditMode = GUILayout.Toggle(_editMode, _editMode ? "Area bewerken (actief — Esc om te stoppen)" : "Area bewerken", "Button", GUILayout.Height(24f));
+            bool newEditMode = GUILayout.Toggle(_editMode, _editMode ? "Edit Area (active - press Esc to stop)" : "Edit Area", "Button", GUILayout.Height(24f));
             GUI.backgroundColor = previous;
 
             if (newEditMode != _editMode)
@@ -367,10 +368,10 @@ namespace TheSourceGame.PrefabScatter
             if (_editMode)
             {
                 EditorGUILayout.HelpBox(
-                    "Sleep punt: verplaatsen over de grond\n" +
-                    "Shift + klik: punt toevoegen\n" +
-                    "Ctrl/Cmd + klik op punt: punt verwijderen\n" +
-                    "Esc: stoppen met bewerken",
+                    "Drag point: move across the ground\n" +
+                    "Shift + click: add point\n" +
+                    "Ctrl/Cmd + click on point: remove point\n" +
+                    "Esc: stop editing",
                     MessageType.None);
             }
         }
@@ -392,7 +393,7 @@ namespace TheSourceGame.PrefabScatter
             SceneView.RepaintAll();
             if (count == 0)
             {
-                Debug.LogWarning("Prefab Scatter: niets geplaatst. Check de prefabs, de ground layers en of de grond een collider heeft.", area);
+                Debug.LogWarning("Prefab Scatter: nothing was placed. Check the prefabs, the ground layers and whether the ground has a collider.", area);
             }
         }
 
@@ -708,7 +709,7 @@ namespace TheSourceGame.PrefabScatter
             }
             if (area.points.Count <= 3)
             {
-                Debug.LogWarning("Prefab Scatter: een gebied heeft minimaal 3 punten nodig.", area);
+                Debug.LogWarning("Prefab Scatter: an area needs at least 3 points.", area);
                 return;
             }
 
@@ -747,7 +748,7 @@ namespace TheSourceGame.PrefabScatter
 
             GUILayout.Label(area.name, EditorStyles.boldLabel);
 
-            bool newEditMode = GUILayout.Toggle(_editMode, _editMode ? "Stop bewerken (Esc)" : "Area bewerken", "Button");
+            bool newEditMode = GUILayout.Toggle(_editMode, _editMode ? "Stop Editing (Esc)" : "Edit Area", "Button");
             if (newEditMode != _editMode)
             {
                 SetEditMode(newEditMode);
@@ -763,7 +764,7 @@ namespace TheSourceGame.PrefabScatter
                 PrefabScatterGenerator.Clear(area);
                 MarkDirty();
             }
-            if (GUILayout.Button("New seed"))
+            if (GUILayout.Button("New Seed"))
             {
                 Undo.RecordObject(area, "New Scatter Seed");
                 area.seed = Random.Range(int.MinValue, int.MaxValue);
@@ -777,12 +778,12 @@ namespace TheSourceGame.PrefabScatter
             {
                 info += "  |  preview: " + _previewPlacements.Count;
             }
-            info += "  |  gespawnd: " + PrefabScatterGenerator.CountSpawned(area);
+            info += "  |  spawned: " + PrefabScatterGenerator.CountSpawned(area);
             GUILayout.Label(info, EditorStyles.miniLabel);
 
             if (_editMode)
             {
-                GUILayout.Label("Shift+klik: punt toevoegen\nCtrl/Cmd+klik: punt verwijderen", EditorStyles.miniLabel);
+                GUILayout.Label("Shift+click: add point\nCtrl/Cmd+click: remove point", EditorStyles.miniLabel);
             }
 
             GUILayout.EndVertical();

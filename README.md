@@ -36,14 +36,14 @@ https://github.com/PauseFish/prefab-scatterer.git
 Want a fixed version? Add the tag:
 
 ```
-https://github.com/PauseFish/prefab-scatterer.git#v1.0.0
+https://github.com/PauseFish/prefab-scatterer.git#v1.0.1
 ```
 
 Or add it directly to `Packages/manifest.json`:
 
 ```json
 "dependencies": {
-  "com.thesourcegame.prefabscatter": "https://github.com/PauseFish/prefab-scatterer.git#v1.0.0"
+  "com.thesourcegame.prefabscatter": "https://github.com/PauseFish/prefab-scatterer.git#v1.0.1"
 }
 ```
 
@@ -60,9 +60,9 @@ To modify the tool inside a project, clone the repository into `<Project>/Packag
 ## Usage
 
 1. **GameObject > The Source Game > Prefab Scatter Area**. An irregular circle appears on the ground at the centre of your Scene view.
-2. Add prefabs via the list, or drag them into the drop box below it.
+2. Add prefabs via the list, or drag them into the **Drag prefabs here** box.
 3. Choose the **Ground Layers**. The ground needs a **collider** (MeshCollider, TerrainCollider...).
-4. Click the area edit button and shape the area:
+4. Click **Edit Area** and shape the area:
 
    | Action | Input |
    |---|---|
@@ -72,7 +72,7 @@ To modify the tool inside a project, clone the repository into `<Project>/Packag
    | Stop editing | Esc |
 
 5. Set **Density**, **Min Distance**, **Edge Falloff** and optionally **Noise**. The preview shows the result immediately.
-6. Click **Scatter**. Clicking again regenerates everything. **Clear** removes it all.
+6. Click **Scatter**. Clicking again regenerates everything. **New Seed** gives a new variation, **Clear** removes it all.
 
 ### Settings
 
@@ -100,7 +100,7 @@ To modify the tool inside a project, clone the repository into `<Project>/Packag
 - The **pivot** of your prefabs should be at the bottom; it is placed on the ground hit point.
 - Spawned objects are ignored by the raycasts, even if they are on a ground layer.
 - Use multiple areas for layering (e.g. one for grass, one for bushes with a larger Min Distance).
-- The snap-to-ground button puts all control points on the terrain, handy after moving the object.
+- **Snap Points To Ground** puts all control points on the terrain, handy after moving the object.
 
 ## Structure
 
